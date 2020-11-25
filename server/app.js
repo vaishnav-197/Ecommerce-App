@@ -43,4 +43,3 @@ app.listen(PORT, () => {
 });
 
 
-// mongodb+srv://<username>:<password>@cluster0.re9du.mongodb.net/<dbname>?retryWrites=true&w=majority

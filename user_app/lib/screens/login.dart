@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:user_app/screens/signup.dart';
 import 'package:user_app/services/authenticate.dart';
+import 'dashBoard.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -129,6 +130,9 @@ class _LoginPageState extends State<LoginPage> {
                               backgroundColor: Colors.green,
                               textColor: Colors.white,
                               fontSize: 16.0);
+                          Navigator.push(context, MaterialPageRoute(builder: (context){
+                            return(DashBoard());
+                          },));
                         }
                       });
 
@@ -141,6 +145,7 @@ class _LoginPageState extends State<LoginPage> {
                             backgroundColor: Colors.blue,
                             textColor: Colors.white,
                             fontSize: 16.0);
+
                       });
                     },
                     child: Text(

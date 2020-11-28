@@ -23,14 +23,19 @@ class AuthService {
     }
   }
 
-  addUser(name, password) async {
+  addUser(name, password, email, phone) async {
     return await dio.post('https://apiecomdemo.herokuapp.com/adduser',
-        data: {"name": name, "password": password},
+        data: {
+          "name": name,
+          "password": password,
+          "email": email,
+          "phone": phone
+        },
         options: Options(contentType: Headers.formUrlEncodedContentType));
   }
 
-  getInfo(token) async {
+  dash(token) async {
     dio.options.headers['Authorization'] = 'Bearer $token';
-    return await dio.get('https://apiecomdemo.herokuapp.com/getinfo');
+    return await dio.get('https://apiecomdemo.herokuapp.com/dash');
   }
 }

@@ -66,9 +66,9 @@ class _LoginPageState extends State<LoginPage> {
                                 //     !EmailValidator.validate(value, true)
                                 //         ? 'Please enter registered email'
                                 //         : null,
-                                // validator: (value) =>
-                                //     value.isEmpty ? 'Enter your name' : null,
-                                // keyboardType: TextInputType.emailAddress,
+                                validator: (value) =>
+                                    value.isEmpty ? 'Enter your name' : null,
+                                keyboardType: TextInputType.emailAddress,
                                 onChanged: (val) {
                                   name = val;
                                 },
@@ -89,9 +89,9 @@ class _LoginPageState extends State<LoginPage> {
                                 onChanged: (val) {
                                   password = val;
                                 },
-                                // validator: (value) => value.isEmpty
-                                //     ? 'Enter your password'
-                                //     : null,
+                                validator: (value) => value.isEmpty
+                                    ? 'Enter your password'
+                                    : null,
                                 decoration: InputDecoration(
                                     border: InputBorder.none,
                                     hintText: "Password",
@@ -115,33 +115,34 @@ class _LoginPageState extends State<LoginPage> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0)),
                     onPressed: () {
-                      // if (_formKey.currentState.validate()) {
-                      //   print(name);
-                      //   print(password);
+                      if (_formKey.currentState.validate()) {
+                        print(name);
+                        print(password);
 
-                      AuthService().login(name, password).then((val) {
-                        if (val.data['success']) {
-                          token = val.data['token'];
+                        AuthService().login(name, password).then((val) {
+                          if (val.data['success']) {
+                            token = val.data['token'];
+                            Fluttertoast.showToast(
+                                msg: 'Authenticated',
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.BOTTOM,
+                                backgroundColor: Colors.green,
+                                textColor: Colors.white,
+                                fontSize: 16.0);
+                          }
+                        });
+
+                        AuthService().dash(token).then((val) {
                           Fluttertoast.showToast(
-                              msg: 'Authenticated',
+                              msg: val.data['msg'],
                               toastLength: Toast.LENGTH_SHORT,
                               gravity: ToastGravity.BOTTOM,
-                              backgroundColor: Colors.green,
+                              timeInSecForIosWeb: 1,
+                              backgroundColor: Colors.blue,
                               textColor: Colors.white,
                               fontSize: 16.0);
-                        }
-                      });
-
-                      AuthService().getInfo(token).then((val) {
-                        Fluttertoast.showToast(
-                            msg: val.data['msg'],
-                            toastLength: Toast.LENGTH_SHORT,
-                            gravity: ToastGravity.BOTTOM,
-                            timeInSecForIosWeb: 1,
-                            backgroundColor: Colors.blue,
-                            textColor: Colors.white,
-                            fontSize: 16.0);
-                      });
+                        });
+                      }
                     },
                     child: Text(
                       'Login',

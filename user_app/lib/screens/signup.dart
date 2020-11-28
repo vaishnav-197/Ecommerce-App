@@ -12,7 +12,7 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   final _formKey = GlobalKey<FormState>();
-  String email, password, name, phonenumber, token;
+  String email, password, name, phone, token;
 
   @override
   Widget build(BuildContext context) {
@@ -128,8 +128,8 @@ class _SignUpPageState extends State<SignUpPage> {
                                 onChanged: (val) {
                                   name = val;
                                 },
-                                // validator: (value) =>
-                                //     value.isEmpty ? 'Enter your name' : null,
+                                validator: (value) =>
+                                    value.isEmpty ? 'Enter your name' : null,
                                 decoration: InputDecoration(
                                     border: InputBorder.none,
                                     hintText: "Full Name",
@@ -144,15 +144,16 @@ class _SignUpPageState extends State<SignUpPage> {
                                       bottom:
                                           BorderSide(color: Colors.grey[200]))),
                               child: TextFormField(
+                                obscureText: true,
                                 onChanged: (val) {
-                                  phonenumber = val;
+                                  password = val;
                                 },
-                                // validator: (value) => value.isEmpty
-                                //     ? 'Enter your phone number'
-                                //     : null,
+                                validator: (value) => value.isEmpty
+                                    ? 'Enter your password'
+                                    : null,
                                 decoration: InputDecoration(
                                     border: InputBorder.none,
-                                    hintText: "Phone Number",
+                                    hintText: "Password",
                                     hintStyle:
                                         TextStyle(color: Colors.grey[400])),
                               ),
@@ -164,10 +165,10 @@ class _SignUpPageState extends State<SignUpPage> {
                                       bottom:
                                           BorderSide(color: Colors.grey[200]))),
                               child: TextFormField(
-                                // validator: (value) =>
-                                //     !EmailValidator.validate(value, true)
-                                //         ? 'Please enter registered email'
-                                //         : null,
+                                validator: (value) =>
+                                    !EmailValidator.validate(value, true)
+                                        ? 'Please enter registered email'
+                                        : null,
                                 keyboardType: TextInputType.emailAddress,
                                 onChanged: (val) {
                                   email = val;
@@ -184,18 +185,18 @@ class _SignUpPageState extends State<SignUpPage> {
                               // decoration: BoxDecoration(
                               //     border: Border(
                               //         bottom:
-                              //             BorderSide(color: Colors.grey[200]))),
+                              //             BorderSide(color: Colors.grey[200]))
+                              //             ),
                               child: TextFormField(
-                                obscureText: true,
                                 onChanged: (val) {
-                                  password = val;
+                                  phone = val;
                                 },
-                                // validator: (value) => value.isEmpty
-                                //     ? 'Enter your password'
-                                //     : null,
+                                validator: (value) => value.isEmpty
+                                    ? 'Enter your phone number'
+                                    : null,
                                 decoration: InputDecoration(
                                     border: InputBorder.none,
-                                    hintText: "Password",
+                                    hintText: "Phone Number",
                                     hintStyle:
                                         TextStyle(color: Colors.grey[400])),
                               ),
@@ -216,21 +217,46 @@ class _SignUpPageState extends State<SignUpPage> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0)),
                     onPressed: () async {
-                      // if (_formKey.currentState.validate()) {
-                      //   print(email);
-                      //   print(password);
-                      //   print(name);
-                      //   print(phonenumber);
-                      // }
-                      AuthService().addUser(name, password).then((val) {
-                        Fluttertoast.showToast(
-                            msg: 'Register Successfull',
-                            toastLength: Toast.LENGTH_SHORT,
-                            gravity: ToastGravity.BOTTOM,
-                            timeInSecForIosWeb: 1,
-                            backgroundColor: Colors.green,
-                            textColor: Colors.white,
-                            fontSize: 16.0);
+                      if (_formKey.currentState.validate()) {
+                        print(email);
+                        print(password);
+                        print(name);
+                        print(phone);
+                      }
+                      AuthService()
+                          .addUser(
+                        name,
+                        password,
+                        email,
+                        phone,
+                      )
+                          .then((val) {
+                        if (val.data['success']) {
+                          // token = val.data['token'];
+                          Fluttertoast.showToast(
+                              msg: val.data['msg'],
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.BOTTOM,
+                              backgroundColor: Colors.green,
+                              textColor: Colors.white,
+                              fontSize: 16.0);
+                        } else {
+                          Fluttertoast.showToast(
+                              msg: val.data['msg'],
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.BOTTOM,
+                              backgroundColor: Colors.red,
+                              textColor: Colors.white,
+                              fontSize: 16.0);
+                        }
+                        // Fluttertoast.showToast(
+                        //     msg: 'Registation Successfull',
+                        //     toastLength: Toast.LENGTH_SHORT,
+                        //     gravity: ToastGravity.BOTTOM,
+                        //     timeInSecForIosWeb: 1,
+                        //     backgroundColor: Colors.green,
+                        //     textColor: Colors.white,
+                        //     fontSize: 16.0);
                       });
                     },
                     child: Text(

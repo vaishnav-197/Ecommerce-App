@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:user_app/screens/signup.dart';
+
 import 'package:user_app/services/authenticate.dart';
 import 'dashBoard.dart';
 
@@ -123,13 +123,16 @@ class _LoginPageState extends State<LoginPage> {
                         AuthService().login(name, password).then((val) {
                           if (val.data['success']) {
                             token = val.data['token'];
-                            Fluttertoast.showToast(
+                           /* Fluttertoast.showToast(
                                 msg: 'Authenticated',
                                 toastLength: Toast.LENGTH_SHORT,
                                 gravity: ToastGravity.BOTTOM,
                                 backgroundColor: Colors.green,
                                 textColor: Colors.white,
-                                fontSize: 16.0);
+                                fontSize: 16.0);*/
+                            Navigator.push(context, MaterialPageRoute(builder: (context){
+                              return(DashBoard());
+                            },));
                           }
                         });
 
@@ -142,14 +145,12 @@ class _LoginPageState extends State<LoginPage> {
                               backgroundColor: Colors.blue,
                               textColor: Colors.white,
                               fontSize: 16.0);
-<<<<<<< HEAD
-                          Navigator.push(context, MaterialPageRoute(builder: (context){
-                            return(DashBoard());
-                          },));
-                        }
+//<<<<<<< HEAD
+
+
                       });
 
-                      AuthService().getInfo(token).then((val) {
+                      AuthService().dash(token).then((val) {
                         Fluttertoast.showToast(
                             msg: val.data['msg'],
                             toastLength: Toast.LENGTH_SHORT,
@@ -158,12 +159,9 @@ class _LoginPageState extends State<LoginPage> {
                             backgroundColor: Colors.blue,
                             textColor: Colors.white,
                             fontSize: 16.0);
-
                       });
-=======
-                        });
-                      }
->>>>>>> cb7955bb3452f09eda650662a5a0542d1b2c973d
+    }
+
                     },
                     child: Text(
                       'Login',
@@ -172,8 +170,9 @@ class _LoginPageState extends State<LoginPage> {
                         // letterSpacing: 1.8,
                         color: Colors.white,
                       ),
-                    ),
+                    )
                   ),
+
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,

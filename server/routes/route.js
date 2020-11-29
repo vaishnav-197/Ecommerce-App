@@ -10,7 +10,10 @@ router.post('/adduser', actions.addNew)
 router.post('/authenticate', actions.authenticate)
 
 
-// GET /getinfo
-router.get('/getinfo', actions.getinfo)
+// GET /dashboard
+router.get('/dash', actions.dash)
+
+
+
 
 module.exports = router

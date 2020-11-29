@@ -19,14 +19,16 @@ const app = express();
 //    connect to mongoose
 mongoose
   .connect(
-    dbConfig.database,
+    dbConfig.Userdb,
     {   useNewUrlParser: true ,
         useUnifiedTopology: true,
         useFindAndModify: false
     }
   )
-  .then(() => console.log('MongoDB Connected'))
+  .then(() => console.log('MongoDB Userdb Connected'))
   .catch(err => console.log(err));
+
+
 
 
 app.use(cors());
@@ -35,7 +37,6 @@ app.use(bodyParser.json());
 app.use('/',routes);
 app.use(passport.initialize())
 require('./config/passport')(passport)
-
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {

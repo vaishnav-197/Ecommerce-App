@@ -1,17 +1,19 @@
-  
+const mongoose = require('mongoose')
 var User = require('../models/user')
 var jwt = require('jwt-simple')
 var config = require('../config/dbconfig')
-
+var prod = require('../models/prod')
 var functions = {
     addNew: function (req, res) {
-        if ((!req.body.name) || (!req.body.password)) {
+        if ((!req.body.name) || (!req.body.password) ||  (!req.body.email) || (!req.body.phone)) {
             res.json({success: false, msg: 'Enter all fields'})
         }
         else {
             var newUser = User({
                 name: req.body.name,
-                password: req.body.password
+                password: req.body.password,
+                email: req.body.email,
+                phone: req.body.phone
             });
             newUser.save(function (err, newUser) {
                 if (err) {
@@ -46,11 +48,24 @@ var functions = {
         }
         )
     },
-    getinfo: function (req, res) {
+    dash: function (req, res) {
         if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
             var token = req.headers.authorization.split(' ')[1]
             var decodedtoken = jwt.decode(token, config.secret)
-            return res.json({success: true, msg: 'Hello ' + decodedtoken.name})
+            
+
+            p = []
+            var listprod = prod.find({}, function(err , prod){
+                if (err) throw err
+                if(prod){
+                    
+                    return res.json({success: true, prod:  prod })
+
+                }
+            })
+            
+            // console.log(listprod)
+            
         }
         else {
             return res.json({success: false, msg: 'No Headers'})

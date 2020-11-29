@@ -9,8 +9,16 @@ var userSchema = new Schema({
     password: {
         type: String,
         require: true
+    },
+    email: {
+        type: String,
+        require: true
+    },
+    phone: {
+        type: String,
+        require: true
     }
-})
+},{ collection: 'users'})
 
 userSchema.pre('save', function (next) {
     var user = this;

@@ -1,8 +1,14 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../widgets/categorySelect.dart';
+import '../services/dashboardItems.dart';
 
 class DashBoard extends StatelessWidget {
+  String token;
+  List<Product> products;
+  Response response;
+  DashBoard({this.token,this.response,this.products});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,8 +45,7 @@ class DashBoard extends StatelessWidget {
               SizedBox(
                   height: MediaQuery.of(context).size.height*.020,
                 ),
-
-              CategorySelect()
+              CategorySelect(token:token,response:response,products: products)
             ],
           ),
         ),

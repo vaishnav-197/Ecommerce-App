@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import '../../const/const.dart';
 
-
 class CategoryScroll extends StatefulWidget {
+  String categoryName;
   final categories=category;
-  int index;
+  String index;
   Function change;
   CategoryScroll({this.index,this.change});
 
@@ -14,6 +14,7 @@ class CategoryScroll extends StatefulWidget {
 
 class _CategoryScrollState extends State<CategoryScroll> {
   int selected = 0;
+  String val;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -25,9 +26,9 @@ class _CategoryScrollState extends State<CategoryScroll> {
         itemBuilder: (context,i)=>GestureDetector(
           onTap:
               (){
-            widget.change(i);
+            widget.change(widget.categories[i]);
             setState(() {
-              widget.change(i);
+              widget.change(widget.categories[i]);
               selected=i;
             });
           },
@@ -39,9 +40,9 @@ class _CategoryScrollState extends State<CategoryScroll> {
                 color: i == selected? Colors.cyan.withOpacity(.4):Colors.transparent,
                 borderRadius: BorderRadius.circular(11)
             ),
-            child: Text(widget.categories[i].toString(),style: TextStyle(
+            child: Text(widget.categories[i].toString() ,style: TextStyle(
                 color: Colors.black,
-              fontSize: 20,
+              fontSize:15,
               fontWeight: FontWeight.w500
             ),),
           ),

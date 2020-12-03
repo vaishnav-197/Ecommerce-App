@@ -1,3 +1,3 @@
 
 
-final category=['Shoes', 'Flipflops','Bags','Accessories','Other Items'];
+final category=['Electronics', 'Garments','Footwear','Bags','Books'];

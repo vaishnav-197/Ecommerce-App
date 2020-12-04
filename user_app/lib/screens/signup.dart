@@ -12,7 +12,7 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   final _formKey = GlobalKey<FormState>();
-  String email, password, name, phone, token;
+  String email, password, name, phone, token, password1;
 
   @override
   Widget build(BuildContext context) {
@@ -165,9 +165,30 @@ class _SignUpPageState extends State<SignUpPage> {
                                       bottom:
                                           BorderSide(color: Colors.grey[200]))),
                               child: TextFormField(
+                                obscureText: true,
+                                onChanged: (val) {
+                                  password1 = val;
+                                },
+                                validator: (value) => value.isEmpty
+                                    ? 'Enter your password'
+                                    : null,
+                                decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: "Confirm Password",
+                                    hintStyle:
+                                        TextStyle(color: Colors.grey[400])),
+                              ),
+                            ),
+                            Container(
+                              padding: EdgeInsets.all(8.0),
+                              decoration: BoxDecoration(
+                                  border: Border(
+                                      bottom:
+                                          BorderSide(color: Colors.grey[200]))),
+                              child: TextFormField(
                                 validator: (value) =>
                                     !EmailValidator.validate(value, true)
-                                        ? 'Please enter registered email'
+                                        ? 'Please enter your email'
                                         : null,
                                 keyboardType: TextInputType.emailAddress,
                                 onChanged: (val) {
@@ -220,6 +241,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       if (_formKey.currentState.validate()) {
                         print(email);
                         print(password);
+                        print(password1);
                         print(name);
                         print(phone);
                       }
@@ -227,6 +249,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           .addUser(
                         name,
                         password,
+                        password1,
                         email,
                         phone,
                       )

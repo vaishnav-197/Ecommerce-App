@@ -7,10 +7,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 class AuthService {
   Dio dio = new Dio();
 
-  login(name, password) async {
+  login(email, password) async {
     try {
       return await dio.post('https://apiecomdemo.herokuapp.com/authenticate',
-          data: {"name": name, "password": password},
+          data: {"email": email, "password": password},
           options: Options(contentType: Headers.formUrlEncodedContentType));
     } on DioError catch (e) {
       Fluttertoast.showToast(
@@ -23,11 +23,12 @@ class AuthService {
     }
   }
 
-  addUser(name, password, email, phone) async {
+  addUser(name, password, password1, email, phone) async {
     return await dio.post('https://apiecomdemo.herokuapp.com/adduser',
         data: {
           "name": name,
           "password": password,
+          "password1": password1,
           "email": email,
           "phone": phone
         },

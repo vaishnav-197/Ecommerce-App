@@ -11,7 +11,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  String name, password, token;
+  String email, password, token;
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -62,19 +62,13 @@ class _LoginPageState extends State<LoginPage> {
                                       bottom:
                                           BorderSide(color: Colors.grey[200]))),
                               child: TextFormField(
-                                // validator: (value) =>
-                                //     !EmailValidator.validate(value, true)
-                                //         ? 'Please enter registered email'
-                                //         : null,
                                 validator: (value) =>
-                                    value.isEmpty ? 'Enter your name' : null,
-                                keyboardType: TextInputType.emailAddress,
-                                onChanged: (val) {
-                                  name = val;
-                                },
+                                    !EmailValidator.validate(value, true)
+                                        ? 'Please enter registered email'
+                                        : null,
                                 decoration: InputDecoration(
                                     border: InputBorder.none,
-                                    hintText: "Name",
+                                    hintText: "Email",
                                     hintStyle:
                                         TextStyle(color: Colors.grey[400])),
                               ),
@@ -116,10 +110,10 @@ class _LoginPageState extends State<LoginPage> {
                         borderRadius: BorderRadius.circular(10.0)),
                     onPressed: () {
                       if (_formKey.currentState.validate()) {
-                        print(name);
+                        print(email);
                         print(password);
 
-                        AuthService().login(name, password).then((val) {
+                        AuthService().login(email, password).then((val) {
                           if (val.data['success']) {
                             token = val.data['token'];
                             Fluttertoast.showToast(

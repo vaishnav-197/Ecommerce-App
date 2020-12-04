@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -31,12 +32,10 @@ class AuthService {
           "password1": password1,
           "email": email,
           "phone": phone
+
         },
         options: Options(contentType: Headers.formUrlEncodedContentType));
   }
 
-  dash(token) async {
-    dio.options.headers['Authorization'] = 'Bearer $token';
-    return await dio.get('https://apiecomdemo.herokuapp.com/dash');
-  }
+
 }

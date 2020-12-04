@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:user_app/screens/signup.dart';
+
 import 'package:user_app/services/authenticate.dart';
+import 'package:user_app/services/dashboardItems.dart';
+import 'dashBoard.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -13,12 +15,13 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   String email, password, token;
   final _formKey = GlobalKey<FormState>();
+  bool _isloading = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Form(
+      body:_isloading ? Center(child: CircularProgressIndicator(),): Form(
         key: _formKey,
         child: SingleChildScrollView(
           child: Container(
@@ -116,17 +119,39 @@ class _LoginPageState extends State<LoginPage> {
                         AuthService().login(email, password).then((val) {
                           if (val.data['success']) {
                             token = val.data['token'];
-                            Fluttertoast.showToast(
+                            setState(() {
+                              _isloading=true;
+                            });
+                           /* Fluttertoast.showToast(
                                 msg: 'Authenticated',
                                 toastLength: Toast.LENGTH_SHORT,
                                 gravity: ToastGravity.BOTTOM,
                                 backgroundColor: Colors.green,
                                 textColor: Colors.white,
-                                fontSize: 16.0);
+                                fontSize: 16.0);*/
+                           DashItems().dashproduct(token).then((check){
+                             if(check.data["success"]){
+                               setState(() {
+                                 _isloading=false;
+                               });
+
+                               Navigator.push(context, MaterialPageRoute(builder: (context){
+                                 List<Product> prod = DashItems().getprod(check);
+
+                                 return(DashBoard(token: token,response: check,products: prod,));
+                               },));
+                             }else{
+                               setState(() {
+                                 _isloading=false;
+                               });
+                               print('error');
+                             }
+                           });
+
                           }
                         });
 
-                        AuthService().dash(token).then((val) {
+                     /*   AuthService().dash(token).then((val) {
                           Fluttertoast.showToast(
                               msg: val.data['msg'],
                               toastLength: Toast.LENGTH_SHORT,
@@ -135,8 +160,27 @@ class _LoginPageState extends State<LoginPage> {
                               backgroundColor: Colors.blue,
                               textColor: Colors.white,
                               fontSize: 16.0);
-                        });
-                      }
+//<<<<<<< HEAD
+
+
+                      });
+
+
+
+                      AuthService().dash(token).then((val) {
+                        Fluttertoast.showToast(
+                            msg: val.data['msg'],
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                            timeInSecForIosWeb: 1,
+                            backgroundColor: Colors.blue,
+                            textColor: Colors.white,
+                            fontSize: 16.0);
+                      });
+
+                      */
+    }
+
                     },
                     child: Text(
                       'Login',
@@ -145,8 +189,9 @@ class _LoginPageState extends State<LoginPage> {
                         // letterSpacing: 1.8,
                         color: Colors.white,
                       ),
-                    ),
+                    )
                   ),
+
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,

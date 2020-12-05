@@ -1,5 +1,6 @@
 const express = require('express')
 const actions = require('../dbfunctions/actions')
+const cartactions = require('../dbfunctions/cartactions')
 const router = express.Router()
 
 
@@ -13,7 +14,7 @@ router.post('/authenticate', actions.authenticate)
 // GET /dashboard
 router.get('/dash', actions.dash)
 
-
+router.post('/cart/add', cartactions.addcart)
 
 
 module.exports = router

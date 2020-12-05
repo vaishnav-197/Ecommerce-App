@@ -37,7 +37,7 @@ app.use(bodyParser.json());
 app.use('/',routes);
 app.use(passport.initialize())
 require('./config/passport')(passport)
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 
 app.listen(PORT, () => {
  console.log("Server running on port 3000");

@@ -3,35 +3,72 @@ var User = require('../models/user')
 var jwt = require('jwt-simple')
 var config = require('../config/dbconfig')
 var prod = require('../models/prod')
+const user = require('../models/user')
+const { use } = require('passport')
 var functions = {
     addNew: function (req, res) {
-        if ((!req.body.name) || (!req.body.password) ||  (!req.body.email) || (!req.body.phone)) {
+
+                    name = req.body.name
+                    password = req.body.password
+                    email = req.body.email
+                    phone = req.body.phone
+                    password1 = req.body.password1
+        
+        if ((!name) || (!password) ||  (!email) || (!phone)) {
             res.json({success: false, msg: 'Enter all fields'})
+            console.log('all feilds req')
         }
-        else {
-            var newUser = User({
-                name: req.body.name,
-                password: req.body.password,
-                email: req.body.email,
-                phone: req.body.phone
-            });
-            newUser.save(function (err, newUser) {
-                if (err) {
-                    res.json({success: false, msg: 'Failed to save'})
-                }
-                else {
-                    res.json({success: true, msg: 'Successfully saved'})
-                }
-            })
+        if (password.length < 6){
+            res.json({success: false, msg: 'Password length less than 6'})
+            console.log('len less than 6')
         }
+        if (password != password1){
+            res.json({success: false, msg: 'Passwords doesnot match'})
+            console.log('no match passwords')
+        }
+        
+
+        if(email){
+            
+            User.findOne(
+                {email:email}
+            ).then(user =>{
+                if(user){
+                    res.json({success: false, msg: 'email id already taken'})
+                    console.log('email taken')
+                }
+            else{
+                var newUser = User({
+                    name: name,
+                    password: password,
+                    email: email,
+                    phone: phone,
+                    
+                });
+                newUser.save(function (err, newUser) {
+                    if (err) {
+                        res.json({success: false, msg: 'Failed to save'})
+                        console.log('failed to save ')
+                    }
+                    else {
+                        res.json({success: true, msg: 'Successfully saved'})
+                        console.log('saved success')
+                    }
+                })
+            }})
+            .catch(err => console.log(err))
+                
+                }
+        
     },
     authenticate: function (req, res) {
         User.findOne({
-            name: req.body.name
+            email: req.body.email
         }, function (err, user) {
                 if (err) throw err
                 if (!user) {
                     res.status(403).send({success: false, msg: 'Authentication Failed, User not found'})
+                    console.log('auth failed')
                 }
 
                 else {
@@ -52,10 +89,9 @@ var functions = {
         if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
             var token = req.headers.authorization.split(' ')[1]
             var decodedtoken = jwt.decode(token, config.secret)
+            console.log(decodedtoken.email)
             
-
-            p = []
-            var listprod = prod.find({}, function(err , prod){
+             prod.find({}, function(err , prod){
                 if (err) throw err
                 if(prod){
                     
@@ -68,9 +104,10 @@ var functions = {
             
         }
         else {
-            return res.json({success: false, msg: 'No Headers'})
+            return res.json({success: false, msg: 'Not Authorized :('})
         }
     }
+    
 }
 
 module.exports = functions

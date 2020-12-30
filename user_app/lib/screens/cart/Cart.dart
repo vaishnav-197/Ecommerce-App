@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:user_app/size_config.dart';
 import 'product.dart';
 
 class Cart {

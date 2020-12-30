@@ -28,7 +28,7 @@ List<Product> demoProducts = [
   Product(
     id: 1,
     images: [
-      "user_app/lib/assets/pexels-fotografierende-1159670.jpg",
+      "assets/1.jpg",
     ],
     colors: [
       Color(0xFFF6625E),
@@ -45,7 +45,7 @@ List<Product> demoProducts = [
   Product(
     id: 2,
     images: [
-      "user_app/lib/assets/pexels-fotografierende-1159670.jpg",
+      "assets/2.jpg",
     ],
     colors: [
       Color(0xFFF6625E),
@@ -61,7 +61,7 @@ List<Product> demoProducts = [
   Product(
     id: 3,
     images: [
-      "user_app/lib/assets/pexels-fotografierende-1159670.jpg",
+      "assets/3.jpg",
     ],
     colors: [
       Color(0xFFF6625E),
@@ -78,7 +78,7 @@ List<Product> demoProducts = [
   Product(
     id: 4,
     images: [
-      "user_app/lib/assets/pexels-fotografierende-1159670.jpgg",
+      "assets/3.jpg",
     ],
     colors: [
       Color(0xFFF6625E),

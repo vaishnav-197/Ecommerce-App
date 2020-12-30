@@ -1,32 +1,66 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:user_app/screens/cart/Cart.dart';
+import 'package:user_app/screens/cart/product.dart';
 
 import '../../size_config.dart';
+import 'cart_item_card.dart';
 
-class Body extends StatelessWidget {
+class Body extends StatefulWidget {
+  @override
+  _BodyState createState() => _BodyState();
+}
+
+class _BodyState extends State<Body> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          children: [
-            SizedBox(
-              width: 8.5 * (MediaQuery.of(context).size.width / 10),
-              child: AspectRatio(
-                aspectRatio: 0.88,
-                child: Container(
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: Color(0xFF5F6F9),
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Image.asset(demoCarts[0].product.images[0]),
-                ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 5),
+      
+      child:  Container(
+                        margin: EdgeInsets.only(top: 150),
+                        child: Center(
+                          child: Text(
+                            "Login",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 40,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+      ListView.builder(
+        itemCount: demoCarts.length,
+        itemBuilder: (context, index) => Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          child: Dismissible(
+            key: Key(demoCarts[index].product.id.toString()),
+            direction: DismissDirection.endToStart,
+            background: Container(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              decoration: BoxDecoration(
+                color: Color(0xFFFFE6E6),
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: Row(
+                children: [
+                  Spacer(),
+                  SvgPicture.asset("assets/Trash.svg"),
+                ],
               ),
             ),
-          ],
-        )
-      ],
+            onDismissed: (direction) {
+              setState(() {
+                demoCarts.removeAt(index);
+              });
+            },
+            child: CartItemCard(
+              cart: demoCarts[index],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

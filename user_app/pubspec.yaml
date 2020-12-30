@@ -26,6 +26,7 @@ dependencies:
   email_validator: ^1.0.5
   dio:
   fluttertoast:
+  flutter_svg: ^0.18.0
   
 
 
@@ -51,9 +52,12 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - C:\Users\acer\Desktop\ecom-demo\user_app\lib\assets\pexels-fotografierende-1159670.jpg
-    - C:\Users\acer\Desktop\ecom-demo\user_app\lib\assets\pexels-melvin-buezo-2529159.jpg
-    - C:\Users\acer\Desktop\ecom-demo\user_app\lib\assets\pexels-zain-ali-1027130.jpg
+    - assets/1.jpg
+    - assets/2.jpg
+    - assets/3.jpg
+    - assets/Trash.svg
+
+
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

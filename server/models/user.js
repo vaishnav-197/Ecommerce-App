@@ -17,6 +17,10 @@ var userSchema = new Schema({
     phone: {
         type: String,
         require: true
+    },
+    cart: {
+        type:Array,
+        require:false
     }
 },{ collection: 'users'})
 

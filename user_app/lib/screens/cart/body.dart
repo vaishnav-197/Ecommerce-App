@@ -15,49 +15,33 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 5),
-      
-      child:  Container(
-                        margin: EdgeInsets.only(top: 150),
-                        child: Center(
-                          child: Text(
-                            "Login",
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 40,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ),
-      ListView.builder(
-        itemCount: demoCarts.length,
-        itemBuilder: (context, index) => Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10),
-          child: Dismissible(
-            key: Key(demoCarts[index].product.id.toString()),
-            direction: DismissDirection.endToStart,
-            background: Container(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              decoration: BoxDecoration(
-                color: Color(0xFFFFE6E6),
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: Row(
-                children: [
-                  Spacer(),
-                  SvgPicture.asset("assets/Trash.svg"),
-                ],
-              ),
+    return ListView.builder(
+      itemCount: demoCarts.length,
+      itemBuilder: (context, index) => Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        child: Dismissible(
+          key: Key(demoCarts[index].product.id.toString()),
+          direction: DismissDirection.endToStart,
+          background: Container(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            decoration: BoxDecoration(
+              color: Color(0xFFFFE6E6),
+              borderRadius: BorderRadius.circular(15),
             ),
-            onDismissed: (direction) {
-              setState(() {
-                demoCarts.removeAt(index);
-              });
-            },
-            child: CartItemCard(
-              cart: demoCarts[index],
+            child: Row(
+              children: [
+                Spacer(),
+                SvgPicture.asset("assets/Trash.svg"),
+              ],
             ),
+          ),
+          onDismissed: (direction) {
+            setState(() {
+              demoCarts.removeAt(index);
+            });
+          },
+          child: CartItemCard(
+            cart: demoCarts[index],
           ),
         ),
       ),

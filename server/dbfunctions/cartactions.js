@@ -1,7 +1,7 @@
 var User = require('../models/user')
 var jwt = require('jwt-simple')
 var config = require('../config/dbconfig')
-var prod = require('../models/prod')
+
 
 var cartfunctions = {
     
@@ -61,7 +61,7 @@ var cartfunctions = {
 
 
 
-    cartdelete: function(req,res){
+    cartdelete: function(req,res ){
         if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
             var token = req.headers.authorization.split(' ')[1]
             var decodedtoken = jwt.decode(token, config.secret)

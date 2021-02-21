@@ -1,10 +1,10 @@
-const mongoose = require('mongoose')
 var User = require('../models/user')
 var jwt = require('jwt-simple')
 var config = require('../config/dbconfig')
-var prod = require('../models/prod')
-const user = require('../models/user')
-const { use } = require('passport')
+
+const chalk = require('chalk')
+
+
 var functions = {
     addNew: function (req, res) {
 
@@ -25,6 +25,7 @@ var functions = {
         if (password != password1){
             res.json({success: false, msg: 'Passwords doesnot match'})
             console.log('no match passwords')
+            
         }
         
 
@@ -89,12 +90,12 @@ var functions = {
         if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
             var token = req.headers.authorization.split(' ')[1]
             var decodedtoken = jwt.decode(token, config.secret)
-            console.log(decodedtoken.email)
+            
             
              prod.find({}, function(err , prod){
                 if (err) throw err
                 if(prod){
-                    
+                    console.log(chalk.blue(decodedtoken.email)+' logged in')
                     return res.json({success: true, prod:  prod })
 
                 }
